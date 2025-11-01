@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>สมุดบัญชีรายรับรายจ่าย</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="hero">
+        <div class="hero__overlay"></div>
+        <div class="hero__content">
+          <h1>สมุดบัญชีรายรับรายจ่าย</h1>
+          <p>
+            เก็บข้อมูลการใช้จ่ายทุกวันอย่างง่าย ๆ เพื่อให้คุณรู้สถานะการเงินของตนเอง
+            และวางแผนอนาคตได้อย่างมั่นใจ
+          </p>
+          <div class="tips">
+            <div class="tip-card">
+              <span class="icon">💡</span>
+              <p>บันทึกเหตุผลของการใช้จ่ายเพื่อทบทวนในอนาคต</p>
+            </div>
+            <div class="tip-card">
+              <span class="icon">📊</span>
+              <p>ใช้สรุปรายวันและรายเดือนเพื่อดูแนวโน้มการเงิน</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="dashboard">
+        <header class="toolbar">
+          <div>
+            <h2>ภาพรวมวันนี้</h2>
+            <p class="date" id="today"></p>
+          </div>
+          <div class="filters">
+            <label for="filterType">ประเภท</label>
+            <select id="filterType">
+              <option value="all">ทั้งหมด</option>
+              <option value="income">รายรับ</option>
+              <option value="expense">รายจ่าย</option>
+            </select>
+            <label for="filterRange">ช่วงเวลา</label>
+            <select id="filterRange">
+              <option value="all">ทั้งหมด</option>
+              <option value="today">วันนี้</option>
+              <option value="week">7 วันล่าสุด</option>
+              <option value="month">30 วันล่าสุด</option>
+            </select>
+          </div>
+        </header>
+
+        <section class="summary">
+          <article class="summary-card income">
+            <header>
+              <h3>รายรับ</h3>
+              <span class="material">⬆</span>
+            </header>
+            <p class="amount" id="totalIncome">฿0.00</p>
+          </article>
+          <article class="summary-card expense">
+            <header>
+              <h3>รายจ่าย</h3>
+              <span class="material">⬇</span>
+            </header>
+            <p class="amount" id="totalExpense">฿0.00</p>
+          </article>
+          <article class="summary-card balance">
+            <header>
+              <h3>คงเหลือ</h3>
+              <span class="material">⚖️</span>
+            </header>
+            <p class="amount" id="balance">฿0.00</p>
+          </article>
+        </section>
+
+        <section class="forms">
+          <form id="transactionForm" class="transaction-form">
+            <h3>เพิ่มรายการใหม่</h3>
+            <div class="field">
+              <label for="type">ประเภท</label>
+              <div class="pill-group">
+                <label class="pill">
+                  <input type="radio" name="type" value="income" checked />
+                  <span>รายรับ</span>
+                </label>
+                <label class="pill">
+                  <input type="radio" name="type" value="expense" />
+                  <span>รายจ่าย</span>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <label for="title">หัวข้อ</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="เช่น เงินเดือน, ค่าเดินทาง"
+                required
+              />
+            </div>
+            <div class="field grid">
+              <div>
+                <label for="amount">จำนวนเงิน (฿)</label>
+                <input
+                  type="number"
+                  id="amount"
+                  name="amount"
+                  step="0.01"
+                  min="0"
+                  required
+                />
+              </div>
+              <div>
+                <label for="date">วันที่</label>
+                <input type="date" id="date" name="date" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="note">หมายเหตุ</label>
+              <textarea
+                id="note"
+                name="note"
+                rows="2"
+                placeholder="ข้อมูลเพิ่มเติม"
+              ></textarea>
+            </div>
+            <button type="submit" class="submit">บันทึกรายการ</button>
+          </form>
+
+          <div class="history">
+            <div class="history__header">
+              <h3>ประวัติรายการ</h3>
+              <button id="clearAll" class="link">ล้างทั้งหมด</button>
+            </div>
+            <ul id="transactionList" class="transaction-list"></ul>
+            <p id="emptyState" class="empty-state">ยังไม่มีรายการบันทึก</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="transactionTemplate">
+      <li class="transaction">
+        <div class="transaction__info">
+          <h4 class="transaction__title"></h4>
+          <p class="transaction__meta"></p>
+        </div>
+        <div class="transaction__amount"></div>
+        <button class="transaction__delete" aria-label="ลบรายการ">×</button>
+      </li>
+    </template>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
